@@ -43,7 +43,7 @@ fi
 find $DESTINATION -type f -exec chmod 644 {} \;
 find $DESTINATION -type d -exec chmod 755 {} \;
 
-chmod +x $DESTINATION/entrypoint.sh
+chmod +x $DESTINATION/scripts/entrypoint.sh
 
 # Run Odoo
 if ! is_present="$(type -p "docker-compose")" || [[ -z $is_present ]]; then
