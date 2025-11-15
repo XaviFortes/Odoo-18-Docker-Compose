@@ -26,14 +26,12 @@ services:
       - "10018:8069"
       - "20018:8072" # live chat
     tty: true
-    command: --
-    entrypoint: /bin/bash -c 'if [ -f /opt/scripts/entrypoint.sh ]; then exec /bin/bash /opt/scripts/entrypoint.sh "$@"; else exec odoo "$@"; fi'
+    entrypoint: /bin/bash -c 'echo "[odoo18] waiting for postgres..."; until pg_isready -h db -p 5432 -U odoo -d postgres; do sleep 2; done; echo "[odoo18] db ready"; exec odoo --db_host=db --db_port=5432 --db_user=odoo --db_password=${PASSWORD}'
     environment:
       - HOST=db
       - USER=odoo
       - PASSWORD=odoo18@2024
     volumes:
-      - ./scripts:/opt/scripts
       - ./addons:/mnt/extra-addons
       - ./etc:/etc/odoo
     restart: always
