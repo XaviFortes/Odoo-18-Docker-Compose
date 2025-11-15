@@ -27,16 +27,16 @@ else
   sudo sysctl -p
 fi
 
-# Set ports in docker-compose.yml
-# Update docker-compose configuration
+# Set ports in docker-compose.yml (update default Odoo 18 ports -> chosen ports)
+# Update docker-compose configuration (handles macOS and Linux sed differences)
 if [[ "$OSTYPE" == "darwin"* ]]; then
   # macOS sed syntax
-  sed -i '' 's/10017/'$PORT'/g' $DESTINATION/docker-compose.yml
-  sed -i '' 's/20017/'$CHAT'/g' $DESTINATION/docker-compose.yml
+  sed -i '' 's/10018/'$PORT'/g' $DESTINATION/docker-compose.yml
+  sed -i '' 's/20018/'$CHAT'/g' $DESTINATION/docker-compose.yml
 else
   # Linux sed syntax
-  sed -i 's/10017/'$PORT'/g' $DESTINATION/docker-compose.yml
-  sed -i 's/20017/'$CHAT'/g' $DESTINATION/docker-compose.yml
+  sed -i 's/10018/'$PORT'/g' $DESTINATION/docker-compose.yml
+  sed -i 's/20018/'$CHAT'/g' $DESTINATION/docker-compose.yml
 fi
 
 # Set file and directory permissions after installation
