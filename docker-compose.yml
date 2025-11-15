@@ -26,11 +26,13 @@ services:
       - "10018:8069"
       - "20018:8072" # live chat
     tty: true
-    entrypoint: /bin/bash -c 'echo "[odoo18] waiting for postgres..."; until pg_isready -h db -p 5432 -U odoo -d postgres; do sleep 2; done; echo "[odoo18] db ready"; exec odoo --db_host=db --db_port=5432 --db_user=odoo --db_password=${PASSWORD}'
+    entrypoint: /bin/bash -c "echo '[odoo18] waiting for postgres...'; until pg_isready -h db -p 5432 -U odoo -d postgres; do sleep 2; done; echo '[odoo18] db ready'; exec odoo --db_host=db --db_port=5432 --db_user=odoo --db_password=${PASSWORD}"
     environment:
       - HOST=db
       - USER=odoo
       - PASSWORD=odoo18@2024
+      - LANG=C.UTF-8
+      - LC_ALL=C.UTF-8
     volumes:
       - ./addons:/mnt/extra-addons
       - ./etc:/etc/odoo
