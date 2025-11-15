@@ -21,7 +21,7 @@ services:
       - "20018:8072" # live chat
     tty: true
     command: --
-    entrypoint: /opt/scripts/entrypoint.sh
+    entrypoint: /bin/sh -c 'if [ -f /opt/scripts/entrypoint.sh ]; then exec /bin/sh /opt/scripts/entrypoint.sh "$@"; else exec odoo "$@"; fi' 
     environment:
       - HOST=db
       - USER=odoo
