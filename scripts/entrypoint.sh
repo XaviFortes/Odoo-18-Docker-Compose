@@ -40,18 +40,23 @@ check_config "db_port" "$PORT"
 check_config "db_user" "$USER"
 check_config "db_password" "$PASSWORD"
 
+# Debug: show what DB args will be passed to Odoo (helps diagnose connection issues)
+echo "[entrypoint] DB_ARGS=${DB_ARGS[*]}" >&2
+
 case "$1" in
     -- | odoo)
         shift
         if [[ "$1" == "scaffold" ]] ; then
             exec odoo "$@"
         else
-            wait-for-psql.py ${DB_ARGS[@]} --timeout=30
+            wait-for-psql.py ${DB_ARGS[@]} --timeout=60
+            echo "[entrypoint] starting odoo with args: ${DB_ARGS[*]}" >&2
             exec odoo "$@" "${DB_ARGS[@]}"
         fi
         ;;
     -*)
-        wait-for-psql.py ${DB_ARGS[@]} --timeout=30
+        wait-for-psql.py ${DB_ARGS[@]} --timeout=60
+        echo "[entrypoint] starting odoo with args: ${DB_ARGS[*]}" >&2
         exec odoo "$@" "${DB_ARGS[@]}"
         ;;
     *)

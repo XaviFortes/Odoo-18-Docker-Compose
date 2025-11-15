@@ -10,22 +10,28 @@ services:
     restart: always
     volumes:
       - ./postgresql:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -U odoo -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
 
   odoo18:
     image: odoo:18
     user: root
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "10018:8069"
       - "20018:8072" # live chat
     tty: true
     command: --
-    entrypoint: /bin/sh -c 'if [ -f /opt/scripts/entrypoint.sh ]; then exec /bin/sh /opt/scripts/entrypoint.sh "$@"; else exec odoo "$@"; fi' 
+    entrypoint: /bin/bash -c 'if [ -f /opt/scripts/entrypoint.sh ]; then exec /bin/bash /opt/scripts/entrypoint.sh "$@"; else exec odoo "$@"; fi'
     environment:
       - HOST=db
       - USER=odoo
-      - PASSWORD=odoo18@2026
+      - PASSWORD=odoo18@2024
     volumes:
       - ./scripts:/opt/scripts
       - ./addons:/mnt/extra-addons
