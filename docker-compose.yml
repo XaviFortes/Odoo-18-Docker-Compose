@@ -41,7 +41,7 @@ services:
 
   sftp:
     image: atmoz/sftp
-    user: "10010:1000"
+    user: "1000:1000"
     volumes:
       - ./addons:/home/dev/odoo-addons
     ports:
