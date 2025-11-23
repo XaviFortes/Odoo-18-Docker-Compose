@@ -41,11 +41,10 @@ services:
 
   sftp:
     image: atmoz/sftp
-    user: "1000:1000"
     volumes:
       - ./addons:/home/dev/odoo-addons
     ports:
       - "2222:22"
     # command format: user:pass:uid
     # example: dev:changeme:1001
-    command: ${SFTP_USER}:${SFTP_PASS}:${SFTP_UID}
+    command: ${SFTP_USER}:${SFTP_PASS}:${SFTP_UID}:0
