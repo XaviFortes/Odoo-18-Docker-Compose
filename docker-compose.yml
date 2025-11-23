@@ -47,4 +47,4 @@ services:
       - "2222:22"
     # command format: user:pass:uid
     # example: dev:changeme:1001
-    command: ${SFTP_USER}:${SFTP_PASS}:${SFTP_UID}
+    command: ${SFTP_USER}:${SFTP_PASS}:${SFTP_UID}:${SFTP_UID}
