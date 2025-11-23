@@ -41,10 +41,15 @@ services:
 
   sftp:
     image: atmoz/sftp
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+          sed -i -e 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config
+          exec /entrypoint ${SFTP_USER}:${SFTP_PASS}:${SFTP_UID}:0
     volumes:
       - ./addons:/home/dev/odoo-addons
     ports:
       - "2222:22"
     # command format: user:pass:uid
     # example: dev:changeme:1001
-    command: ${SFTP_USER}:${SFTP_PASS}:${SFTP_UID}:0
