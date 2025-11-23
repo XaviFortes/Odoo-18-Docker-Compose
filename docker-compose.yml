@@ -37,6 +37,7 @@ services:
     volumes:
       - ./addons:/mnt/extra-addons
       - ./etc:/etc/odoo
+      - ./odoo_data:/var/lib/odoo
     restart: always
 
   sftp:
